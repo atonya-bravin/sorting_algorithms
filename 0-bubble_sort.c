@@ -17,16 +17,19 @@ void bubble_sort(int *array, size_t size)
 	unsigned int looper;
 	int temp;
 
-	for (element_ctr = 0; element_ctr < size - 1; element_ctr++)
+	if (array != NULL)
 	{
-		for (looper = 0; looper < size - element_ctr - 1; looper++)
+		for (element_ctr = 0; element_ctr < size - 1; element_ctr++)
 		{
-			if (array[looper] > array[looper + 1])
+			for (looper = 0; looper < size - element_ctr - 1; looper++)
 			{
-				temp = array[looper];
-				array[looper] = array[looper + 1];
-				array[looper + 1] = temp;
-				print_array(array, size);
+				if (array[looper] > array[looper + 1])
+				{
+					temp = array[looper];
+					array[looper] = array[looper + 1];
+					array[looper + 1] = temp;
+					print_array(array, size);
+				}
 			}
 		}
 	}
