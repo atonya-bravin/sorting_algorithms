@@ -1,24 +1,37 @@
 #include "sort.h"
-#include <stdlib.h>
 
-void insertion_sort_list(listint_t **list)
+/**
+ * bubble_sort - Sorts an array of integers in ascending
+ * order using Bubble sort algorithm.
+ * @array: The integer array to sort
+ * @size: The size of the integer array
+ *
+ * Return: Nothing
+ */
+void bubble_sort(int *array, size_t size)
 {
-	listint_t **temp = malloc(sizeof(listint_t));
-	listint_t **prev = malloc(sizeof(listint_t));
-	listint_t **current = list;
+	int counter = 0;
+	int aux = 0;
+       	int max = 0;
+       	int swap = 1;
 
-	while (*current != NULL)
+	if (!array || size < 2)
+		return;
+
+	max = size - 1;
+
+	for (; counter < max; ++counter)
 	{
-		*prev = (*current)->prev;
-		if (*prev != NULL)
+		if (array[counter] > array[counter + 1])
 		{
-			if ((*prev)->n > (*current)->n)
-			{
-				*temp = *prev;
-				*prev = *current;
-				*current = *temp;
-			}
+			aux = array[counter];
+			array[counter] = array[counter + 1];
+			array[counter + 1] = aux;
+			swap = 1;
+			print_array(array, size);
 		}
-		*current = (*current)->next;
+
+		if (swap == 1 && counter == max - 1)
+			counter = -1, swap = 0, --max;
 	}
 }
