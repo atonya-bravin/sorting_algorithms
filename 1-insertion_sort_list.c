@@ -1,37 +1,53 @@
 #include "sort.h"
 
 /**
- * bubble_sort - Sorts an array of integers in ascending
- * order using Bubble sort algorithm.
- * @array: The integer array to sort
- * @size: The size of the integer array
+ * insertion_sort_list - Sorts a doubly linked list
+ * of integers in ascending order using
+ * the Insertion sort algorithm.
+ * @list: linked list to sort
  *
  * Return: Nothing
  */
-void bubble_sort(int *array, size_t size)
+void insertion_sort_list(listint_t **list)
 {
-	int counter = 0;
-	int aux = 0;
-       	int max = 0;
-       	int swap = 1;
+	bool flag = false;
+	listint_t *tmp = NULL, *aux = NULL;
 
-	if (!array || size < 2)
+	if (!list || !(*list) || !(*list)->next)
 		return;
 
-	max = size - 1;
-
-	for (; counter < max; ++counter)
+	tmp = *list;
+	while (tmp->next)
 	{
-		if (array[counter] > array[counter + 1])
+		if (tmp->n > tmp->next->n)
 		{
-			aux = array[counter];
-			array[counter] = array[counter + 1];
-			array[counter + 1] = aux;
-			swap = 1;
-			print_array(array, size);
-		}
+			tmp->next->prev = tmp->prev;
+			if (tmp->next->prev)
+				tmp->prev->next = tmp->next;
+			else
+				*list = tmp->next;
 
-		if (swap == 1 && counter == max - 1)
-			counter = -1, swap = 0, --max;
+			tmp->prev = tmp->next;
+			tmp->next = tmp->next->next;
+			tmp->prev->next = tmp;
+			if (tmp->next)
+				tmp->next->prev = tmp;
+
+			tmp = tmp->prev;
+			print_list(*list);
+
+			if (tmp->prev && tmp->prev->n > tmp->n)
+			{
+				if (!flag)
+					aux = tmp->next;
+				flag = true;
+				tmp = tmp->prev;
+				continue;
+			}
+		}
+		if (!flag)
+			tmp = tmp->next;
+		else
+			tmp = aux, flag = false;
 	}
 }
